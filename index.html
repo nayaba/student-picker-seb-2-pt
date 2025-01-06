@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pick-A-Student</title>
+  <style>
+    body {
+      font-family: Helvetica;
+      font-weight: lighter;
+      font-size: 20px;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #container {
+      text-align: center;
+    }
+
+    ul li:first-child:not(.done) {
+      font-size: 50px;
+      color: green;
+      margin-bottom: 15px;
+    }
+
+    li {
+      list-style: none;
+      animation: twirl 1s;
+    }
+
+    @keyframes twirl {
+      0% {
+        transform-origin: center;
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+      }
+
+      100% {
+        transform-origin: center;
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    button {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 20px;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="pick">Next SEI<br>Contestant</button>
+  <div id="container">
+    <ul id="picked"></ul>
+  </div>
+
+  <script type="text/javascript">
+    const students = [
+      'Abbas Hussain Jassim',
+      'Ahmed Abdulla Amralla Hasan',
+      'Ahmed Sabri Mohamed Darwish',
+      'Ali Hussain Jaffer Ahmed Naser',
+      'Faris Abdulsalam Ahmed Mohamed AlMannaei',
+      'Hadi Alrahmani',
+      'Hakim Ali Hassan Alhaddad',
+      'Lateefa Sami Aldoseri',
+      'Mahmood Abdulmoneem Hassan Almajed',
+      'Maryam Fareed Abdulsamad Jan M',
+      'Mohammed Osama Swar',
+      'Mohammaed Yasser Ahmed Ali',
+      'Muhanna Juma',
+      'Salma Mohammed Hassan',
+      'Sarah Jalal Alsaleem',
+      'Sayed Ali Hussain',
+      'Sayed Ali Hussain Isa Mohamed Hashem',
+      'Sayed Haider Husain Mahmood Husain Alhashemi',
+      'Zaid Sarhan',
+    ];
+
+    let first, filteredStudents;
+
+    const pickedList = document.getElementById('picked');
+    const pickBtn = document.getElementById('pick');
+
+    pickBtn.addEventListener('click', function () {
+      if (filteredStudents.length) {
+        const contestant = filteredStudents.splice(Math.floor(Math.random() * filteredStudents.length), 1);
+        const li = document.createElement('li');
+        li.innerHTML = contestant;
+        if (first) {
+          pickedList.firstElementChild.remove();
+          pickedList.appendChild(li);
+          first = false;
+        } else {
+          pickedList.insertBefore(li, pickedList.firstElementChild);
+        }
+      } else {
+        pickBtn.disabled = true;
+        document.querySelector('ul li:first-child').classList.add('done');
+      }
+    });
+
+    function refreshStudents() {
+      filteredStudents = students.slice(); // Directly assign the student list
+      pickedList.innerHTML = "<li>Who's First?</li>";
+      first = true;
+    }
+
+    function init() {
+      refreshStudents(); // Initialize without any campus or pod logic
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
