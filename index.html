@@ -35,15 +35,26 @@
       font-size: 20px;
       padding: 10px;
     }
+
+    a {
+      margin-top: 20px;
+      font-size: 18px;
+      text-decoration: none;
+      color: blue;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
 <body>
-  <button id="create-group">Create Group of 3</button>
+  <button id="pick">Next SEI<br>Contestant</button>
   <div id="container">
-    <h2>Groups</h2>
-    <ul id="groups"></ul>
+    <ul id="picked"></ul>
   </div>
+  <a href="group-picker.html">Go to Group Picker</a>
 
   <script type="text/javascript">
     const students = [
@@ -68,32 +79,40 @@
       'Zaid Sarhan',
     ];
 
-    let remainingStudents = [...students];
-    const groupsList = document.getElementById('groups');
-    const createGroupButton = document.getElementById('create-group');
+    let first, filteredStudents;
 
-    createGroupButton.addEventListener('click', function () {
-      if (remainingStudents.length >= 3) {
-        const group = [];
-        for (let i = 0; i < 3; i++) {
-          const randomIndex = Math.floor(Math.random() * remainingStudents.length);
-          group.push(remainingStudents.splice(randomIndex, 1)[0]);
+    const pickedList = document.getElementById('picked');
+    const pickBtn = document.getElementById('pick');
+
+    pickBtn.addEventListener('click', function () {
+      if (filteredStudents.length) {
+        const contestant = filteredStudents.splice(Math.floor(Math.random() * filteredStudents.length), 1);
+        const li = document.createElement('li');
+        li.innerHTML = contestant;
+        if (first) {
+          pickedList.firstElementChild.remove();
+          pickedList.appendChild(li);
+          first = false;
+        } else {
+          pickedList.insertBefore(li, pickedList.firstElementChild);
         }
-        const li = document.createElement('li');
-        li.textContent = `Group: ${group.join(', ')}`;
-        groupsList.appendChild(li);
-      } else if (remainingStudents.length > 0) {
-        // Handle remaining students if fewer than 3
-        const li = document.createElement('li');
-        li.textContent = `Group (less than 3): ${remainingStudents.join(', ')}`;
-        groupsList.appendChild(li);
-        remainingStudents = [];
-      }
-
-      if (remainingStudents.length === 0) {
-        createGroupButton.disabled = true;
+      } else {
+        pickBtn.disabled = true;
+        document.querySelector('ul li:first-child').classList.add('done');
       }
     });
+
+    function refreshStudents() {
+      filteredStudents = students.slice();
+      pickedList.innerHTML = "<li>Who's First?</li>";
+      first = true;
+    }
+
+    function init() {
+      refreshStudents();
+    }
+
+    init();
   </script>
 </body>
 
