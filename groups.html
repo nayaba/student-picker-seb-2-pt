@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pick-A-Student</title>
+  <style>
+    body {
+      font-family: Helvetica;
+      font-weight: lighter;
+      font-size: 20px;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #container {
+      text-align: center;
+    }
+
+    ul {
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+      margin: 10px 0;
+    }
+
+    button {
+      margin: 10px;
+      font-size: 20px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="create-group">Create Group of 3</button>
+  <div id="container">
+    <h2>Groups</h2>
+    <ul id="groups"></ul>
+  </div>
+
+  <script type="text/javascript">
+    const students = [
+      'Abbas Hussain Jassim',
+      'Ahmed Abdulla Amralla Hasan',
+      'Ahmed Sabri Mohamed Darwish',
+      'Ali Hussain Jaffer Ahmed Naser',
+      'Faris Abdulsalam Ahmed Mohamed AlMannaei',
+      'Hadi Alrahmani',
+      'Hakim Ali Hassan Alhaddad',
+      'Lateefa Sami Aldoseri',
+      'Mahmood Abdulmoneem Hassan Almajed',
+      'Maryam Fareed Abdulsamad Jan M',
+      'Mohammed Osama Swar',
+      'Mohammaed Yasser Ahmed Ali',
+      'Muhanna Juma',
+      'Salma Mohammed Hassan',
+      'Sarah Jalal Alsaleem',
+      'Sayed Ali Hussain',
+      'Sayed Ali Hussain Isa Mohamed Hashem',
+      'Sayed Haider Husain Mahmood Husain Alhashemi',
+      'Zaid Sarhan',
+    ];
+
+    let remainingStudents = [...students];
+    const groupsList = document.getElementById('groups');
+    const createGroupButton = document.getElementById('create-group');
+
+    createGroupButton.addEventListener('click', function () {
+      if (remainingStudents.length >= 3) {
+        const group = [];
+        for (let i = 0; i < 3; i++) {
+          const randomIndex = Math.floor(Math.random() * remainingStudents.length);
+          group.push(remainingStudents.splice(randomIndex, 1)[0]);
+        }
+        const li = document.createElement('li');
+        li.textContent = `Group: ${group.join(', ')}`;
+        groupsList.appendChild(li);
+      } else if (remainingStudents.length > 0) {
+        // Handle remaining students if fewer than 3
+        const li = document.createElement('li');
+        li.textContent = `Group (less than 3): ${remainingStudents.join(', ')}`;
+        groupsList.appendChild(li);
+        remainingStudents = [];
+      }
+
+      if (remainingStudents.length === 0) {
+        createGroupButton.disabled = true;
+      }
+    });
+  </script>
+</body>
+
+</html>
