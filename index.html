@@ -14,51 +14,35 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
 
     #container {
       text-align: center;
     }
 
-    ul li:first-child:not(.done) {
-      font-size: 50px;
-      color: green;
-      margin-bottom: 15px;
+    ul {
+      padding: 0;
     }
 
     li {
       list-style: none;
-      animation: twirl 1s;
-    }
-
-    @keyframes twirl {
-      0% {
-        transform-origin: center;
-        transform: rotate3d(0, 0, 1, -200deg);
-        opacity: 0;
-      }
-
-      100% {
-        transform-origin: center;
-        transform: none;
-        opacity: 1;
-      }
+      margin: 10px 0;
     }
 
     button {
-      position: fixed;
-      top: 15px;
-      left: 15px;
+      margin: 10px;
       font-size: 20px;
-      padding: 20px;
+      padding: 10px;
     }
   </style>
 </head>
 
 <body>
-  <button id="pick">Next SEI<br>Contestant</button>
+  <button id="create-group">Create Group of 3</button>
   <div id="container">
-    <ul id="picked"></ul>
+    <h2>Groups</h2>
+    <ul id="groups"></ul>
   </div>
 
   <script type="text/javascript">
@@ -84,40 +68,32 @@
       'Zaid Sarhan',
     ];
 
-    let first, filteredStudents;
+    let remainingStudents = [...students];
+    const groupsList = document.getElementById('groups');
+    const createGroupButton = document.getElementById('create-group');
 
-    const pickedList = document.getElementById('picked');
-    const pickBtn = document.getElementById('pick');
-
-    pickBtn.addEventListener('click', function () {
-      if (filteredStudents.length) {
-        const contestant = filteredStudents.splice(Math.floor(Math.random() * filteredStudents.length), 1);
-        const li = document.createElement('li');
-        li.innerHTML = contestant;
-        if (first) {
-          pickedList.firstElementChild.remove();
-          pickedList.appendChild(li);
-          first = false;
-        } else {
-          pickedList.insertBefore(li, pickedList.firstElementChild);
+    createGroupButton.addEventListener('click', function () {
+      if (remainingStudents.length >= 3) {
+        const group = [];
+        for (let i = 0; i < 3; i++) {
+          const randomIndex = Math.floor(Math.random() * remainingStudents.length);
+          group.push(remainingStudents.splice(randomIndex, 1)[0]);
         }
-      } else {
-        pickBtn.disabled = true;
-        document.querySelector('ul li:first-child').classList.add('done');
+        const li = document.createElement('li');
+        li.textContent = `Group: ${group.join(', ')}`;
+        groupsList.appendChild(li);
+      } else if (remainingStudents.length > 0) {
+        // Handle remaining students if fewer than 3
+        const li = document.createElement('li');
+        li.textContent = `Group (less than 3): ${remainingStudents.join(', ')}`;
+        groupsList.appendChild(li);
+        remainingStudents = [];
+      }
+
+      if (remainingStudents.length === 0) {
+        createGroupButton.disabled = true;
       }
     });
-
-    function refreshStudents() {
-      filteredStudents = students.slice(); // Directly assign the student list
-      pickedList.innerHTML = "<li>Who's First?</li>";
-      first = true;
-    }
-
-    function init() {
-      refreshStudents(); // Initialize without any campus or pod logic
-    }
-
-    init();
   </script>
 </body>
 
