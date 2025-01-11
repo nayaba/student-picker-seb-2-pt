@@ -35,11 +35,22 @@
       font-size: 20px;
       padding: 10px;
     }
+
+    input {
+      font-size: 18px;
+      padding: 5px;
+      width: 50px;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
-  <button id="create-group">Create Group of 3</button>
+  <div>
+    <label for="group-size">Group Size:</label>
+    <input id="group-size" type="number" min="1" value="3">
+    <button id="create-group">Create Group</button>
+  </div>
   <div id="container">
     <h2>Groups</h2>
     <ul id="groups"></ul>
@@ -69,23 +80,27 @@
     ];
 
     let remainingStudents = [...students];
+    let groupNumber = 1;
     const groupsList = document.getElementById('groups');
     const createGroupButton = document.getElementById('create-group');
+    const groupSizeInput = document.getElementById('group-size');
 
     createGroupButton.addEventListener('click', function () {
-      if (remainingStudents.length >= 3) {
+      const groupSize = parseInt(groupSizeInput.value, 10);
+
+      if (remainingStudents.length >= groupSize) {
         const group = [];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < groupSize; i++) {
           const randomIndex = Math.floor(Math.random() * remainingStudents.length);
           group.push(remainingStudents.splice(randomIndex, 1)[0]);
         }
         const li = document.createElement('li');
-        li.textContent = `Group: ${group.join(', ')}`;
+        li.textContent = `Group ${groupNumber++}: ${group.join(', ')}`;
         groupsList.appendChild(li);
       } else if (remainingStudents.length > 0) {
-        // Handle remaining students if fewer than 3
+        // Handle remaining students if fewer than group size
         const li = document.createElement('li');
-        li.textContent = `Group (less than 3): ${remainingStudents.join(', ')}`;
+        li.textContent = `Group ${groupNumber++} (less than ${groupSize}): ${remainingStudents.join(', ')}`;
         groupsList.appendChild(li);
         remainingStudents = [];
       }
