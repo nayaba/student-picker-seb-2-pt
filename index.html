@@ -1,119 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Pick-A-Student</title>
-  <style>
-    body {
-      font-family: Helvetica;
-      font-weight: lighter;
-      font-size: 20px;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    #container {
-      text-align: center;
-    }
-
-    ul {
-      padding: 0;
-    }
-
-    li {
-      list-style: none;
-      margin: 10px 0;
-    }
-
-    button {
-      margin: 10px;
-      font-size: 20px;
-      padding: 10px;
-    }
-
-    a {
-      margin-top: 20px;
-      font-size: 18px;
-      text-decoration: none;
-      color: blue;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-
-<body>
-  <button id="pick">Next SEB<br>Contestant</button>
-  <div id="container">
-    <ul id="picked"></ul>
-  </div>
-  <a href="group-picker.html">Go to Group Picker</a>
-
-  <script type="text/javascript">
-    const students = [
-      'Abbas Hussain Jassim',
-      'Ahmed Abdulla Amralla Hasan',
-      'Ahmed Sabri Mohamed Darwish',
-      'Ali Hussain Jaffer Ahmed Naser',
-      'Faris Abdulsalam Ahmed Mohamed AlMannaei',
-      'Hadi Alrahmani',
-      'Hakim Ali Hassan Alhaddad',
-      'Lateefa Sami Aldoseri',
-      'Mahmood Abdulmoneem Hassan Almajed',
-      'Maryam Fareed Abdulsamad Jan M',
-      'Mohammed Osama Swar',
-      'Mohammaed Yasser Ahmed Ali',
-      'Muhanna Juma',
-      'Salma Mohammed Hassan',
-      'Sarah Jalal Alsaleem',
-      'Sayed Ali Hussain',
-      'Sayed Ali Hussain Isa Mohamed Hashem',
-      'Sayed Haider Husain Mahmood Husain Alhashemi',
-      'Zaid Sarhan',
-    ];
-
-    let first, filteredStudents;
-
-    const pickedList = document.getElementById('picked');
-    const pickBtn = document.getElementById('pick');
-
-    pickBtn.addEventListener('click', function () {
-      if (filteredStudents.length) {
-        const contestant = filteredStudents.splice(Math.floor(Math.random() * filteredStudents.length), 1);
-        const li = document.createElement('li');
-        li.innerHTML = contestant;
-        if (first) {
-          pickedList.firstElementChild.remove();
-          pickedList.appendChild(li);
-          first = false;
-        } else {
-          pickedList.insertBefore(li, pickedList.firstElementChild);
-        }
-      } else {
-        pickBtn.disabled = true;
-        document.querySelector('ul li:first-child').classList.add('done');
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pick-A-Student</title>
+    <style>
+      body {
+        font-family: Helvetica;
+        font-weight: lighter;
+        font-size: 20px;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
       }
-    });
 
-    function refreshStudents() {
-      filteredStudents = students.slice();
-      pickedList.innerHTML = "<li>Who's First?</li>";
-      first = true;
-    }
+      #container {
+        text-align: center;
+      }
 
-    function init() {
-      refreshStudents();
-    }
+      ul {
+        padding: 0;
+      }
 
-    init();
-  </script>
-</body>
+      li {
+        list-style: none;
+        margin: 10px 0;
+      }
 
+      button {
+        margin: 10px;
+        font-size: 20px;
+        padding: 10px;
+      }
+
+      a {
+        margin-top: 20px;
+        font-size: 18px;
+        text-decoration: none;
+        color: blue;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="pick">Next SEB<br />Contestant</button>
+    <div id="container">
+      <ul id="picked"></ul>
+    </div>
+    <a href="group-picker.html">Go to Group Picker</a>
+
+    <script type="text/javascript">
+      const students = [
+        'Murtadha Abdulameer',
+        'Khawla Ahmed Abdulla',
+        'Hussain Nader Mohsen Ahmed Ali Abdulnabi',
+        'Yasmeen Abuhendi',
+        'Yusuf Mohamed Yaqoob Mohamed Albaloshi',
+        'Abdulla Sameer Alheela',
+        'Nargess Emile Jaafar Almahdi',
+        'Ahmed Almashaur',
+        'Salman Ameen Aqeel',
+        'Abdulla Bakhsh',
+        'Hamdan Abdulsaleem Chitari',
+        // 'Salman Yusuf Dashti',
+        'Sayed Falah',
+        'Fares Yusuf Abdulla Yusuf',
+        'Ali Habib',
+        'Zainab Hammad',
+        'Yusuf Ali Haji Yusuf Hasan',
+        'Jassim Hayat',
+        'Hawra Abdulraoof Ahmed Ahmed Nowrooz Husain',
+        'Ahmed Khalid Mohammed',
+        'Sayed Ali Shubbar',
+        'Mohamed Thamer',
+        'Aqeela alghasra',
+        'Abbas husain',
+        'Lulwa Alsayegh',
+      ]
+
+      let first, filteredStudents
+
+      const pickedList = document.getElementById('picked')
+      const pickBtn = document.getElementById('pick')
+
+      pickBtn.addEventListener('click', function () {
+        if (filteredStudents.length) {
+          const contestant = filteredStudents.splice(
+            Math.floor(Math.random() * filteredStudents.length),
+            1
+          )
+          const li = document.createElement('li')
+          li.innerHTML = contestant
+          if (first) {
+            pickedList.firstElementChild.remove()
+            pickedList.appendChild(li)
+            first = false
+          } else {
+            pickedList.insertBefore(li, pickedList.firstElementChild)
+          }
+        } else {
+          pickBtn.disabled = true
+          document.querySelector('ul li:first-child').classList.add('done')
+        }
+      })
+
+      function refreshStudents() {
+        filteredStudents = students.slice()
+        pickedList.innerHTML = "<li>Who's First?</li>"
+        first = true
+      }
+
+      function init() {
+        refreshStudents()
+      }
+
+      init()
+    </script>
+  </body>
 </html>
